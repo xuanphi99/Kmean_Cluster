@@ -22,14 +22,14 @@ public class K_Clusterer extends ReadDataset {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter the filename with path");
 //		String file=sc.next();
-		String file = "diabetes.csv";
+		String file = "tripadvisor_reviewDemo.csv";
 		r1.read(file); //load data
 		System.out.println(r1.features.size());
 		int ex=1;
 		//do{
 		System.out.println("Enter the no. of clusters");
 	//	int k = sc.nextInt();
-		int k = 2;
+		int k = 5;
 		
 		System.out.println("Enter maximum iterations");
 //		int max_iterations = sc.nextInt();
@@ -151,17 +151,17 @@ public class K_Clusterer extends ReadDataset {
 		for (String i : r1.headers) {
 			System.out.print(i+" ");
 		}
-		System.out.println("\n");
+		System.out.println("Thuoc cum\n");
 	//	System.out.println("Feature1\tFeature2\tFeature3\tFeature4\tFeature5\tFeature6\tFeature7\tFeature8\tCluster");
 		for (double[] key : clusters.keySet()) {
-			if (clusters.get(key) == 0) {
+//			if (clusters.get(key) == 0) {
 				
 		
 			for (int i = 0; i < key.length; i++) {
 				System.out.print(key[i] + "\t\t");
 			}
 			System.out.print(clusters.get(key) + "\n");
-			}
+		//	}
 		}
 		
 		//Calculate WCSS
@@ -173,10 +173,11 @@ public class K_Clusterer extends ReadDataset {
 			for (double[] key : clusters.keySet()) {
 				if (clusters.get(key)==i) {
 					sse+=Math.pow(Distance.eucledianDistance(key, centroids.get(i)),2);
-				//	System.out.println("sse "+sse );
+					
 				}
 				}
 			wcss+=sse;
+		
 		}
 		String dis="";
 		if(distance ==1)
