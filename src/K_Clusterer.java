@@ -1,10 +1,8 @@
-/*
- * Programmed by Shephalika Shekhar
- * Class for Kmeans Clustering implemetation
- */
+
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 public class K_Clusterer extends ReadDataset {
 
@@ -17,43 +15,60 @@ public class K_Clusterer extends ReadDataset {
 	public static void main(String args[]) throws IOException {
 		
 		
+		
 		ReadDataset r1 = new ReadDataset();
 		r1.features.clear();
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter the filename with path");
 //		String file=sc.next();
-		String file = "tripadvisor_reviewDemo.csv";
+		String file = "wifi_localization.csv";
 		r1.read(file); //load data
 		System.out.println(r1.features.size());
 		int ex=1;
-		//do{
-		System.out.println("Enter the no. of clusters");
-	//	int k = sc.nextInt();
-		int k = 5;
+	
+		int k =4;
 		
-		System.out.println("Enter maximum iterations");
-//		int max_iterations = sc.nextInt();
 		int max_iterations = 500,current_ite=0;
-		System.out.println("Enter distance metric 1 or 2: \n1. Euclidean\n2. Manhattan");
-//		int distance = sc.nextInt();
-		int distance = 2;
+		int distance = 1;
 		
 		//Hashmap to store centroids with index
 		
 		Map<Integer, double[]> centroids = new HashMap<>();	
-		
-	
+
+			
+//		double[] t1 = {-57,-55,-45,-59,-50,-85,-85};
+//		
+//		double[] t2 = {-59,-52,-61,-57,-69,-83,-78};
+//		double[] t3 = {-34,-60,-52,-37,-71,-66,-75};
+//		double[] t4 = {-60,-57,-58,-66,-65,-77,-80};
+//		double[] t5 = {-55,-50,-46,-57,-48,-76,-87};
+//			ArrayList<double[]> listCentroids = new  ArrayList<double[]>();
+//		listCentroids.add(t1);
+//		listCentroids.add(t2);
+//		listCentroids.add(t3);
+//		listCentroids.add(t4);
+//		listCentroids.add(t5);
+
+
 
 		// calculating initial centroids
 		double[] x1 = new double[numberOfFeatures];
 		
 		int r =0;
+		System.out.println("Khoi tao tam bat ki");
 		for (int i = 0; i < k; i++) {
 			
+//			x1 = listCentroids.get(r++);	
+//			centroids.put(i, x1);
+			//Initial starting points (random):
 			x1=r1.features.get(r++);
-			System.out.println("  tam "+i +" : "+ +x1[0]+" "+x1[1]);
 			centroids.put(i, x1);
-			
+//			
+			System.out.print(" Tam "+ i+":  ");
+			for (double d : x1) {
+				System.out.print(+d+",");
+			}
+			System.out.println("\n");
+		
 		}
 		
 		Map<Integer, double[]> centroidsTemp = new HashMap<>();
@@ -130,11 +145,22 @@ public class K_Clusterer extends ReadDataset {
 				}			
 		}
 		if (flag) {	
-			System.out.println("dung "+i);
+		
 			current_ite = i;
+			
+			System.out.println(" Tam sau khi phan cum ");
+			for (Integer key : centroids.keySet()) {			
+		System.out.print(" tam "+ key +" : " );
+			for (double d : centroids.get(key)) {
+					System.out.print( d+ ", ");
+			}		
+			
+			System.out.println("\n");		
+		}
+			
 			break;
 		}
-		
+		current_ite = i;
 			centroidsTemp.putAll(centroids);
 			
 			
@@ -146,7 +172,7 @@ public class K_Clusterer extends ReadDataset {
 		}
 		
 		//final cluster print
-		System.out.println("\nKet qua Phan Cum ");
+/*		System.out.println("\nKet qua Phan Cum ");
 
 		for (String i : r1.headers) {
 			System.out.print(i+" ");
@@ -155,7 +181,7 @@ public class K_Clusterer extends ReadDataset {
 	//	System.out.println("Feature1\tFeature2\tFeature3\tFeature4\tFeature5\tFeature6\tFeature7\tFeature8\tCluster");
 		for (double[] key : clusters.keySet()) {
 //			if (clusters.get(key) == 0) {
-				
+			
 		
 			for (int i = 0; i < key.length; i++) {
 				System.out.print(key[i] + "\t\t");
@@ -163,7 +189,7 @@ public class K_Clusterer extends ReadDataset {
 			System.out.print(clusters.get(key) + "\n");
 		//	}
 		}
-		
+*/		
 		//Calculate WCSS
 		double wcss=0;
 		
@@ -173,11 +199,11 @@ public class K_Clusterer extends ReadDataset {
 			for (double[] key : clusters.keySet()) {
 				if (clusters.get(key)==i) {
 					sse+=Math.pow(Distance.eucledianDistance(key, centroids.get(i)),2);
-					
+			//		System.out.println("sse "+ " --"+sse );
 				}
 				}
 			wcss+=sse;
-		
+		//	System.out.println("wcss =" + i+ "------------------------"+wcss);
 		}
 		String dis="";
 		if(distance ==1)
@@ -187,11 +213,27 @@ public class K_Clusterer extends ReadDataset {
 		System.out.println("\n*************************\n*********Results************\nDistance Metric: "+dis);
 		System.out.println("Iterations: "+current_ite);
 		System.out.println("Number of Clusters: "+k);
-		System.out.println("WCSS: "+wcss);
-	//	System.out.println("Press 1 if you want to continue else press 0 to exit..");
-		//ex=sc.nextInt();
-//		}while(ex==1);
+		DecimalFormat df = new DecimalFormat("#.####");
+
+
+		System.out.println("WCSS : "+df.format(wcss));
+		
+		for (int i = 0; i < k; i++) {
+			
+		int sumOfCluster =0;
+		for (double[] key : clusters.keySet()) {
+			
+				if (clusters.get(key)== i) {
+					sumOfCluster++;
+				}
+			
+			
+		}
+		System.out.println("Clustered Instances "+ i +" : "+ sumOfCluster);
 	}
+		
+		
+	} //end main
 	
 	private static boolean equal(double[] d1, double[] d2) {
 		boolean flag = true;
@@ -222,7 +264,10 @@ public class K_Clusterer extends ReadDataset {
 				sum = sum + x[i];
 			//	System.out.println("ta co "+ x[0] + " "+ x[1] );
 			}
-			centroids[i] = sum / count;
+			DecimalFormat df = new DecimalFormat("#.####");
+			double tmp = (double)sum / (double)count;
+			
+			centroids[i] = Double.parseDouble(df.format(tmp));
 		}
 		return centroids;
 

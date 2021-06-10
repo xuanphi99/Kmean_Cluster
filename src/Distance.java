@@ -1,8 +1,5 @@
-/*
- * Programmed by Shephalika Shekhar
- * class containing methods to calculate distance between two points with features 
- * based on distance metric
- */
+import java.text.DecimalFormat;
+
 public class Distance {
 
 	public Distance() {
@@ -15,7 +12,9 @@ public class Distance {
         	//System.out.println(point1[i]+" "+point2[i]);
             sum += ((point1[i] - point2[i]) * (point1[i] - point2[i]));
         }
-        return Math.sqrt(sum);
+        DecimalFormat df = new DecimalFormat("#.####");
+//        Double.parseDouble(df.format( Math.sqrt(sum)));
+        return  Double.parseDouble(df.format( Math.sqrt(sum)));
     }
     
     public static double manhattanDistance(double point1[], double point2[]){

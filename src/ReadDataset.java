@@ -1,7 +1,4 @@
-/*
- * Programmed by Shephalika Shekhar
- * Class to extract features from file
- */
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,16 +40,16 @@ public class ReadDataset {
 			
 			 String[] split = line.split(",");
 			
-            		 double[] feature = new double[split.length ];
-            		//	 double[] feature = new double[split.length-1 ];
+            	//	 double[] feature = new double[split.length ];
+            			 double[] feature = new double[split.length-1 ];
             		// System.out.println(split[0]+ " "+ split[1]+" "+ split[2]+" "+split[7] + " "+split[8]);
-            		//	numberOfFeatures = split.length-1;
+            			numberOfFeatures = split.length-1;
                         
-                	//	for (int i = 0; i < split.length -1; i++)
+                		for (int i = 0; i < split.length -1; i++)
             		 
-             		numberOfFeatures = split.length;
+             	//	numberOfFeatures = split.length;
             
-            		for (int i = 0; i < split.length ; i++)
+            	//	for (int i = 0; i < split.length ; i++)
                			 feature[i] = Double.parseDouble(split[i]);
             		features.add(feature);
 
