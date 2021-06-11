@@ -1,4 +1,7 @@
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -35,17 +38,17 @@ public class K_Clusterer extends ReadDataset {
 		Map<Integer, double[]> centroids = new HashMap<>();	
 
 			
-//		double[] t1 = {-57,-55,-45,-59,-50,-85,-85};
-//		
-//		double[] t2 = {-59,-52,-61,-57,-69,-83,-78};
-//		double[] t3 = {-34,-60,-52,-37,-71,-66,-75};
-//		double[] t4 = {-60,-57,-58,-66,-65,-77,-80};
-//		double[] t5 = {-55,-50,-46,-57,-48,-76,-87};
-//			ArrayList<double[]> listCentroids = new  ArrayList<double[]>();
-//		listCentroids.add(t1);
-//		listCentroids.add(t2);
-//		listCentroids.add(t3);
-//		listCentroids.add(t4);
+		double[] t1 = {-57,-55,-45,-59,-50,-85,-85};
+		
+		double[] t2 = {-59,-52,-61,-57,-69,-83,-78};
+		double[] t3 = {-34,-60,-52,-37,-71,-66,-75};
+		double[] t4 = {-60,-57,-58,-66,-65,-77,-80};
+		double[] t5 = {-55,-50,-46,-57,-48,-76,-87};
+			ArrayList<double[]> listCentroids = new  ArrayList<double[]>();
+		listCentroids.add(t1);
+		listCentroids.add(t2);
+		listCentroids.add(t3);
+		listCentroids.add(t4);
 //		listCentroids.add(t5);
 
 
@@ -57,12 +60,12 @@ public class K_Clusterer extends ReadDataset {
 		System.out.println("Khoi tao tam bat ki");
 		for (int i = 0; i < k; i++) {
 			
-//			x1 = listCentroids.get(r++);	
-//			centroids.put(i, x1);
-			//Initial starting points (random):
-			x1=r1.features.get(r++);
+			x1 = listCentroids.get(r++);	
 			centroids.put(i, x1);
-//			
+			//Initial starting points (random):
+//			x1=r1.features.get(r++);
+//			centroids.put(i, x1);
+			
 			System.out.print(" Tam "+ i+":  ");
 			for (double d : x1) {
 				System.out.print(+d+",");
@@ -189,7 +192,8 @@ public class K_Clusterer extends ReadDataset {
 			System.out.print(clusters.get(key) + "\n");
 		//	}
 		}
-*/		
+		
+*/		saveFile(clusters);
 		//Calculate WCSS
 		double wcss=0;
 		
@@ -304,4 +308,32 @@ public class K_Clusterer extends ReadDataset {
 
 	}
 
+	public static void saveFile(Map<double[], Integer> clusters ) {
+		
+		try {
+			File file = new File("model.csv");
+			BufferedWriter bfBufferedWriter = null;
+			bfBufferedWriter = new  BufferedWriter(new FileWriter(file));
+			int sum=0;
+			for (double[] key : clusters.keySet()) {
+				
+				bfBufferedWriter.write(sum+",");
+				for (int i = 0; i < key.length; i++) {
+				
+//			//		System.out.print(key[i] + ",");
+					bfBufferedWriter.write(key[i]+",");
+				}
+		//	System.out.println(clusters.get(key)+"----------------");
+				bfBufferedWriter.write(clusters.get(key)+"");
+				sum++;
+				bfBufferedWriter.newLine();
+			}
+			bfBufferedWriter.flush();
+			bfBufferedWriter.close();
+				System.out.println("Done!");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
 }
